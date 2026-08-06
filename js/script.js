@@ -1,7 +1,8 @@
 // =========================================================
 // Non-Ordinary Realities — site behavior
-// - GA4 with Google Consent Mode v2 (denied by default,
-//   granted only after explicit user action)
+// - GA4 tag + Consent Mode v2 defaults live in <head> (index.html).
+//   This file only sends the consent UPDATE once the visitor
+//   makes a choice in the cookie banner.
 // - Minimal nav reveal on scroll
 // - Consent banner logic (localStorage persisted choice)
 // =========================================================
@@ -9,33 +10,9 @@
 (function () {
   "use strict";
 
-  var GA_MEASUREMENT_ID = "G-XXXXXXXXXX"; // TODO: replace with your real GA4 ID
-
-  /* ---------------------------------------------------------
-     Consent Mode v2 — set defaults BEFORE GA loads
-     --------------------------------------------------------- */
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { window.dataLayer.push(arguments); }
-  window.gtag = gtag;
-
-  gtag("consent", "default", {
-    ad_storage: "denied",
-    ad_user_data: "denied",
-    ad_personalization: "denied",
-    analytics_storage: "denied",
-    wait_for_update: 500,
-  });
-
-  gtag("js", new Date());
-  gtag("config", GA_MEASUREMENT_ID, { anonymize_ip: true });
-
-  function loadGA() {
-    if (document.getElementById("ga4-script")) return;
-    var s = document.createElement("script");
-    s.id = "ga4-script";
-    s.async = true;
-    s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_MEASUREMENT_ID;
-    document.head.appendChild(s);
+  function gtag() {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(arguments);
   }
 
   /* ---------------------------------------------------------
@@ -44,22 +21,12 @@
   var STORAGE_KEY = "nor-consent";
 
   function applyConsent(choice) {
-    if (choice === "granted") {
-      gtag("consent", "update", {
-        ad_storage: "denied",
-        ad_user_data: "denied",
-        ad_personalization: "denied",
-        analytics_storage: "granted",
-      });
-      loadGA();
-    } else {
-      gtag("consent", "update", {
-        ad_storage: "denied",
-        ad_user_data: "denied",
-        ad_personalization: "denied",
-        analytics_storage: "denied",
-      });
-    }
+    gtag("consent", "update", {
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      analytics_storage: choice === "granted" ? "granted" : "denied",
+    });
   }
 
   function initConsentBanner() {
