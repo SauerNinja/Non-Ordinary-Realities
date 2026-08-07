@@ -1,35 +1,20 @@
 # Non-Ordinary Realities
 
-A sourced field guide to non-ordinary reality — spanning anthropology (Castaneda, core shamanism), transpersonal psychology (Grof), neuroscience (Carhart-Harris's entropic brain), evolutionary cognition (Hoffman's interface theory), Norse cosmology (Yggdrasil), and philosophy (Kant, Schopenhauer, and the Western esoteric traditions).
+![Non-Ordinary Realities](assets/og-image.jpg)
+
+A sourced field guide to everything that lies beyond ordinary, everyday waking consciousness. Twelve sections trace the same question — what's actually on the other side of perception? — through six completely different disciplines that have each tried to answer it on their own terms.
+
+Start with **Carlos Castaneda's Nagual** and the shamanic journey between the Lower, Middle, and Upper Worlds. Follow the thread into **Stanislav Grof's holotropic states** and the neuroscience of the entropic brain. Cross into **Donald Hoffman's interface theory**, which argues evolution built us to survive reality, not to see it. Sit for a while with **Kant's Noumenon** and **Schopenhauer's Will** — the philosophical bedrock under all of it. Climb the roots of **Yggdrasil**, the Norse world tree, and see the same three-tiered cosmology show up nearly a thousand years earlier on the other side of the world. Land, finally, in the **Western esoteric tradition** — Sufi mysticism, Hermeticism, Kabbalah — and a closing detour into the strange modern echo of all this hiding inside a terminal window.
+
+Every claim is sourced. Every section cites the people who made it — Eliade, Grof, Carhart-Harris, Hoffman, Kant, Schopenhauer, Snorri Sturluson — rather than asserting anything as given.
+
+## Design
+
+The site is built around a single idea: it should visually perform the split it's describing. Sections alternate between two registers — a void-dark "ink" tone and a lighter nebula "vellum" tone — so that scrolling from one section to the next is a small, literal crossing between registers of reality. A canvas starfield runs underneath the entire page, and a recolored 19th-century engraving of Yggdrasil anchors the world-tree section in the same cosmic purple-gold-magenta palette as everything else.
 
 ## Stack
 
-Static HTML/CSS/JS. No build step, no dependencies, no framework. A single-page site with alternating "ink" (dark) and "vellum" (nebula) sections, an animated canvas starfield, and a Google tag wired with Consent Mode v2 — analytics only fires after the visitor accepts the cookie banner.
-
-## Structure
-
-- `index.html` — the full single-page site, plus the Google tag and JSON-LD schema in `<head>`
-- `css/style.css` — design tokens and all styling
-- `js/script.js` — consent banner logic, nav reveal, and the starfield canvas
-- `404.html` — custom not-found page
-- `sitemap.xml`, `robots.txt`, `.nojekyll` — deployment/SEO infrastructure
-- `assets/` — favicons, OG image, and the Yggdrasil artwork (WebP + JPEG)
-
-## Local development
-
-No build step required — open `index.html` directly in a browser, or serve the folder with any static file server, e.g.:
-
-```
-python3 -m http.server 8000
-```
-
-## Deployment (GitHub Pages)
-
-1. Push this repo to GitHub.
-2. In the repo, go to **Settings → Pages** and set the source to **Deploy from a branch**, branch `main`, folder `/ (root)`.
-3. Wait 1–3 minutes for the first deploy. The site will be live at `https://<username>.github.io/<repo-name>/`.
-4. Update the canonical URL, Open Graph URLs, and the JSON-LD `url`/`mainEntityOfPage` fields in `index.html` to match your actual deployed URL if it differs from the placeholder already in the file.
-5. Submit `sitemap.xml` to Google Search Console for faster indexing.
+Static HTML/CSS/JS. No build step, no framework, no dependencies. A Google tag is wired in with Consent Mode v2, so analytics stays off until a visitor actively accepts the cookie banner.
 
 ## License
 
