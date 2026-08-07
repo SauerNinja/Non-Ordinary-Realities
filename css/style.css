@@ -287,6 +287,27 @@ section{ padding:clamp(3.5rem,8vw,6.5rem) 0; position:relative; }
 .card p{ font-size:0.96rem; margin-bottom:0; opacity:0.9; }
 
 /* -----------------------------------------------------------
+   Constrained figure — used for the Yggdrasil image so a tall
+   portrait etching doesn't stretch the whole grid row; crops
+   to a calmer ratio and keeps the ring/mountain in frame.
+   ----------------------------------------------------------- */
+.figure-crop{
+  aspect-ratio: 4 / 5;
+  overflow:hidden;
+  border:1px solid var(--ink-line);
+}
+.figure-crop img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:50% 22%;
+  border:none !important;
+}
+@media(max-width:719px){
+  .figure-crop{ aspect-ratio: 3 / 4; }
+}
+
+/* -----------------------------------------------------------
    Kant deep-dive: phenomena / noumena split panel
    ----------------------------------------------------------- */
 .split{
