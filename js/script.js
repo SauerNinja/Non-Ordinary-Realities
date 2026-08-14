@@ -185,9 +185,48 @@
     }
   }
 
+  /* ---------------------------------------------------------
+     Active nav-link highlighting
+     Marks the topnav link matching whichever section is
+     currently in view, using IntersectionObserver rather than
+     a scroll listener for performance.
+     --------------------------------------------------------- */
+  function initActiveNav() {
+    var links = document.querySelectorAll(".topnav-links a[href^='#']");
+    if (!links.length || !("IntersectionObserver" in window)) return;
+
+    var linkByUrl = {};
+    links.forEach(function (link) {
+      linkByUrl[link.getAttribute("href").slice(1)] = link;
+    });
+
+    var sections = Array.prototype.filter.call(
+      document.querySelectorAll("main section[id]"),
+      function (s) { return linkByUrl[s.id]; }
+    );
+    if (!sections.length) return;
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          var link = linkByUrl[entry.target.id];
+          if (!link) return;
+          if (entry.isIntersecting) {
+            links.forEach(function (l) { l.classList.remove("active"); });
+            link.classList.add("active");
+          }
+        });
+      },
+      { root: null, rootMargin: "0px 0px -60% 0px", threshold: 0.1 }
+    );
+
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initConsentBanner();
     initNav();
     initStarfield();
+    initActiveNav();
   });
 })();
