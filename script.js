@@ -125,6 +125,7 @@
           phase: Math.random() * Math.PI * 2,
           speed: Math.random() * 0.015 + 0.006,
           color: colorSet,
+          glint: Math.random() < 0.09, // ~9% of stars get a sparkle flare at peak brightness
         });
       }
     }
@@ -152,6 +153,22 @@
       }
     }
 
+    function drawGlint(s, alpha, radius) {
+      // a thin four-point cross-flare, drawn only near a glint star's brightness peak
+      var len = radius * 7;
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = "rgba(" + s.color + ",1)";
+      ctx.lineWidth = 0.6;
+      ctx.beginPath();
+      ctx.moveTo(s.x - len, s.y);
+      ctx.lineTo(s.x + len, s.y);
+      ctx.moveTo(s.x, s.y - len);
+      ctx.lineTo(s.x, s.y + len);
+      ctx.stroke();
+      ctx.restore();
+    }
+
     var t = 0;
     function tick() {
       t += 1;
@@ -160,10 +177,15 @@
         var s = stars[i];
         var twinkle = (Math.sin(t * s.speed + s.phase) + 1) / 2; // 0..1
         var alpha = s.baseAlpha * (0.5 + 0.5 * twinkle);
+        var radius = s.r * (0.85 + 0.3 * twinkle);
         ctx.beginPath();
         ctx.fillStyle = "rgba(" + s.color + "," + alpha.toFixed(3) + ")";
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, radius, 0, Math.PI * 2);
         ctx.fill();
+        if (s.glint && twinkle > 0.88) {
+          var glintAlpha = (twinkle - 0.88) / 0.12; // ramps 0..1 only at the very peak
+          drawGlint(s, glintAlpha * 0.8, radius);
+        }
       }
       window.requestAnimationFrame(tick);
     }
@@ -223,10 +245,38 @@
     sections.forEach(function (s) { observer.observe(s); });
   }
 
+  /* ---------------------------------------------------------
+     Reading progress bar
+     --------------------------------------------------------- */
+  function initProgressBar() {
+    var fill = document.getElementById("progress-fill");
+    if (!fill) return;
+    var ticking = false;
+
+    function update() {
+      var doc = document.documentElement;
+      var scrollTop = window.scrollY || doc.scrollTop;
+      var height = doc.scrollHeight - doc.clientHeight;
+      var pct = height > 0 ? Math.min(100, (scrollTop / height) * 100) : 0;
+      fill.style.width = pct + "%";
+      ticking = false;
+    }
+
+    window.addEventListener("scroll", function () {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    });
+    window.addEventListener("resize", update);
+    update();
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initConsentBanner();
     initNav();
     initStarfield();
     initActiveNav();
+    initProgressBar();
   });
 })();

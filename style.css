@@ -78,6 +78,27 @@ header, main, footer, #consent-banner{
   z-index:1;
 }
 
+/* -----------------------------------------------------------
+   Reading progress bar — thin gradient line fixed to the top,
+   fills as the visitor scrolls. Gradient matches the site's
+   own gold-to-magenta accent pairing.
+   ----------------------------------------------------------- */
+#progress-bar{
+  position:fixed;
+  top:0; left:0; right:0;
+  height:3px;
+  z-index:50;
+  background:rgba(13,8,24,0.4);
+  pointer-events:none;
+}
+#progress-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg, var(--gold) 0%, var(--gold-bright) 35%, var(--verdigris) 100%);
+  box-shadow:0 0 8px rgba(244,203,126,0.5);
+  transition:width 0.08s linear;
+}
+
 h1,h2,h3,h4{
   font-family:var(--f-display);
   font-weight:600;
@@ -449,6 +470,35 @@ details .d-body{ padding-top:0.9rem; font-size:0.98rem; max-width:64ch; opacity:
 /* -----------------------------------------------------------
    Footer
    ----------------------------------------------------------- */
+/* -----------------------------------------------------------
+   Share bar
+   ----------------------------------------------------------- */
+.share-section{ padding:2.5rem 0; text-align:center; }
+.share-bar{
+  display:flex;
+  justify-content:center;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.share-link{
+  display:inline-flex;
+  align-items:center;
+  gap:0.55rem;
+  padding:0.7rem 1.3rem;
+  border:1px solid var(--ink-line);
+  color:var(--ink-text);
+  text-decoration:none;
+  font-family:var(--f-mono);
+  font-size:0.82rem;
+  letter-spacing:0.04em;
+  transition:border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+.share-link:hover{
+  border-color:var(--gold-bright);
+  color:var(--gold-bright);
+  transform:translateY(-2px);
+}
+
 footer{
   padding:3.5rem 0 2.5rem;
   background:var(--ink-bg-2-a);

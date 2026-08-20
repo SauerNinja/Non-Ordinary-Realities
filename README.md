@@ -24,3 +24,7 @@ Static HTML/CSS/JS. No build step, no framework, no dependencies. A Google tag i
 ## License
 
 MIT — see `LICENSE`.
+
+---
+
+A research article based on thoughts by Setvin Noether (@SauerNinja)
